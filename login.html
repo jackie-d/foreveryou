@@ -7,37 +7,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 
-  <link href="css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" />
+<link href="css/style.css" rel="stylesheet" />
 </head>
-<body id="login">
+<body id="login" style="background-color: #eee">
 
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
       <a class="navbar-brand" href="./">ForeverYou.com</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
 
-      </div>
-
-			<div class="col-md-3 text-end" id="topbar-signup" style="display: none">
+			<div class="col-md-3 text-end" id="topbar-signup">
         <a type="button" class="btn btn-outline-primary me-2" href="./login.html">Login</a>
         <a type="button" class="btn btn-primary" href="./signup.html">Sign-up</a>
-      </div>
-
-      <div class="dropdown text-end" id="topbar-user" style="display: none">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-          </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item signout-button" href="#">Sign out</a></li>
-          </ul>
       </div>
 
     </div>
@@ -46,14 +28,13 @@
   <main>
     
 
-<div class="card shadow-sm">
+<div class="card shadow-sm p-4 m-2">
            
 
+           <div class="col-lg-6 col-xxl-4 mb-5 p-5 mx-auto">
 
-           <h2>Login</h2>
+              <h2 class="mb-5">Login</h2>
 
-
-           <div class="col-lg-6 col-xxl-4 my-5 mx-auto">
             <div class="d-grid gap-2">
 
 
@@ -66,9 +47,8 @@
 		            <div class="col-12">
 		              <label for="username" class="form-label">Email</label>
 		              <div class="input-group has-validation">
-		                <span class="input-group-text">@</span>
 		                <input type="email" class="form-control" id="email" placeholder="you@example.com" required="">
-		              <div class="invalid-feedback">
+		                <div class="invalid-feedback">
 		                  Your username is required.
 		                </div>
 		              </div>
@@ -84,13 +64,14 @@
 
 		          </div>
 
-		          <a class="w-100 btn btn-primary btn-lg" id="loginButton">Login</a>
+		          <a class="w-100 btn btn-primary btn-lg p-2 mt-3" id="loginButton">Login</a>
 
 		        </form>
 
+              <hr />
 
-              <a href="./send-notification.html" class="btn btn-outline-secondary" type="button">Login with Google</a>
-              <button class="btn btn-primary" type="button">Login with Facebook</button>
+              <button id="login-button-google" class="btn btn-outline-secondary" type="button">Login with Google</button>
+              <button id="login-button-facebook" class="btn btn-primary" type="button">Login with Facebook</button>
 
             </div>
           </div>

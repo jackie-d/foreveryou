@@ -1,5 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 const module = {
 
@@ -13,6 +12,14 @@ const module = {
 		const that = this;
 		$('#signupButton').click(function(){
 			that.signupByEmail();
+		});
+
+		$('#signup-google-button').click(function(){
+			that.signupByGoogle();
+		});
+
+		$('#signup-facebook-button').click(function(){
+			that.signupByFacebook();
 		});
 	},
 
@@ -28,7 +35,7 @@ const module = {
 		    // Signed up 
 		    const user = userCredential.user;
 		    console.log(user);
-		    location.href = "./";
+		    location.href = "./?create=true";
 		  })
 		  .catch((error) => {
 		    const errorCode = error.code;
@@ -36,6 +43,26 @@ const module = {
 		    // ..
 		  });
 
+	},
+
+	signupByGoogle: function() {
+		const provider = new GoogleAuthProvider();
+
+		const auth = getAuth();
+		signInWithPopup(auth, provider)
+		  .then((result) => {
+		    const credential = GoogleAuthProvider.credentialFromResult(result);
+		    const token = credential.accessToken;
+		    const user = result.user;
+
+		    location.href = "./?create=true";
+		  }).catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    const email = error.customData.email;
+		    const credential = GoogleAuthProvider.credentialFromError(error);
+		    console.log('error', error);
+		  });
 	}
 
 };

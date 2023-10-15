@@ -27,6 +27,12 @@ const module = {
 		this.guestId = this.with ? user.uid : this.from;
 
 		$('#send-button').click(() => { this.sendMessage() });
+		$('#message-text').keyup((e) => {
+		   var code = e.keyCode ? e.keyCode : e.which;
+		   if (code == 13 && !e.shiftKey ) {  // Enter keycode
+		     this.sendMessage();
+		   }
+		});
 
 		this.initListen();
 		
@@ -83,13 +89,34 @@ const module = {
 			$bubble.removeClass('d-none');
 			$container.append($bubble);
 		})
+
+		$container.parent().animate({scrollTop: $container.height()});
 	},
 
-	notifyGuest: function() {
+	notifyGuest: async function() {
 		this.db = getFirestore(firebase);
 
 		const usersRef = collection(this.db, "users", this.from);
-		
+
+		const q = query(usersRef, where("permalink", "==", userShown));
+		const querySnapshot = await getDocs(q);
+
+		let userData;
+
+		querySnapshot.forEach((doc) => {
+		  	console.log(doc.id, " => ", doc.data());
+			userData = doc.data();
+			userId = doc.id;
+
+		});
+
+
+		if ( userData.notificationMode == 'email' ) {
+			let email = userData.notificationDestination;
+		} else {
+
+		}
+
 	}
 
 };
