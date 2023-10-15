@@ -17,3 +17,7 @@
 	display: inline-block;
 	margin-right: 8px;
 }
+
+.navbar .dropdown-toggle::after {
+	color: white;
+}

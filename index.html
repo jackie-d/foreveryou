@@ -25,12 +25,12 @@
 
       <div class="dropdown text-end" id="topbar-user" style="display: none">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="https://avatars.dicebear.com/api/adventurer-neutral/mail%40ashallendesign.co.uk.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+            <!-- https://eu.ui-avatars.com/api/?name=John+Doe&size=25 -->
           </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+          <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1" style="">
+            <li><a class="dropdown-item" href="./">My profile page</a></li>
+            <li><a class="dropdown-item" href="./search.html">Search a person</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item signout-button" href="#">Sign out</a></li>
           </ul>
@@ -53,17 +53,17 @@
           </div>
 
 
-          <h1 id="profile-name" data-field='name'>
+          <h1 id="profile-name" data-field='name' data-desc='Your name:'>
             <svg class="" width="10em" height="1em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
               <rect width="100%" height="100%" fill="#ddd"></rect>
             </svg>
           </h1>
-          <p id="profile-notes" data-field='notes'>
+          <p id="profile-notes" data-field='notes' data-desc='Notes about you:'>
             <svg class="" width="15em" height="5em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
               <rect width="100%" height="100%" fill="#ddd"></rect>
             </svg>
           </p>
-          <h3 id="profile-permalink" data-field='permalink'>
+          <h3 id="profile-permalink" data-field='permalink' data-desc='Your unique URL permalink:'>
             <svg class="" width="5em" height="1em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
               <rect width="100%" height="100%" fill="#ddd"></rect>
             </svg>
@@ -72,9 +72,9 @@
         </div>
         <div class="col-md-6">
 
-          <ul>
+          <!-- <ul>
             <li id="profile-location">Miami, FL</li>
-          </ul>
+          </ul> -->
 
           <p id="profile-send-button-container">
           <button id="send-message-button" class="btn btn-lg btn-primary my-2">Send message</button>
