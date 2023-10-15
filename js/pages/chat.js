@@ -1,42 +1,95 @@
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 
 const module = {
 
 	firebase: null,
 	user: null,
+	with: null,
+	db: null,
+
+	fyId: null,
+	guestId: null,
 	
 	init: function(firebase, user) {
 		console.log(firebase);
 
 		this.firebase = firebase;
 		this.user = user;
+		this.db = getFirestore(firebase);
 
-		const that = this;
-		$('#loginButton').click(function(){
-			that.loginByEmail();
+		var url = new URL(window.location);
+		this.with = url.searchParams.get("with");
+
+		this.from = url.searchParams.get("from");
+
+		this.fyId = this.with ?? user.uid;
+		this.guestId = this.with ? user.uid : this.from;
+
+		$('#send-button').click(() => { this.sendMessage() });
+
+		this.initListen();
+		
+	},
+
+	sendMessage: async function() {
+		const timestamp = Date.now();
+		const messageInput = document.getElementById("message-text");
+		const message = messageInput.value;
+
+		// clear the input box
+		messageInput.value = "";
+
+		//auto scroll to bottom
+		/*document
+		.getElementById("messages")
+		.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });*/
+
+		if ( this.from ) {
+			notifyGuest(message);
+		}
+
+		await setDoc(doc(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages/${timestamp}`), {
+		  uid: this.user.uid,
+		  message: message
 		});
 	},
 
-	loginByEmail: function() {
+	initListen: function() {
 
-		const auth = getAuth(this.firebase);
+		console.log(this.fyId);
 
-		const email = $('#email').val();
-		const password = $('#password').val();
-	
-		signInWithEmailAndPassword(auth, email, password)
-		  .then((userCredential) => {
-		    // Signed in 
-		    const user = userCredential.user;
-		    console.log(user);
-		    location.href="./";
-		  })
-		  .catch((error) => {
-		    const errorCode = error.code;
-		    const errorMessage = error.message;
-		  });
+		const unsub = onSnapshot(collection(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages`), (doc) => {
+		    console.log("Current data: ", doc.docChanges().map(e => e.doc.data()));
+		    this.addToUI(doc.docChanges().map(e => e.doc.data()));
+		});
 
+	},
+
+	addToUI: function(messages) {
+		let $myBubble = $('#my-bubble');
+		let $otherBubble = $('#other-bubble');
+
+		let $container = $('#chat-container');
+
+		let $bubble;
+		messages.forEach(m => {
+			if ( m.uid == this.user.uid ) {
+				$bubble = $myBubble.clone();
+			} else {
+				$bubble = $otherBubble.clone();
+			}
+			$bubble.find('.text-content').text(m.message);
+			$bubble.removeClass('d-none');
+			$container.append($bubble);
+		})
+	},
+
+	notifyGuest: function() {
+		this.db = getFirestore(firebase);
+
+		const usersRef = collection(this.db, "users", this.from);
+		
 	}
 
 };
