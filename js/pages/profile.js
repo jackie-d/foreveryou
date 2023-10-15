@@ -21,6 +21,7 @@ const module = {
 
 		// TODO
 		if ( !userShown ) {
+			window.location.href = './home.html';
 			return;
 		}
 
@@ -60,15 +61,36 @@ const module = {
 		  
 		  $profileName.text(userData.name);
 		  $profileNotes.text(userData.notes);
-		  $profilePermalink.text(userData.permalink);
+		  $profilePermalink.text('@' + userData.permalink);
 
 		} else {
-		  // docSnap.data() will be undefined in this case
-		  console.log("No such document!");
+			// docSnap.data() will be undefined in this case
+			console.log("No such document!");
+
+			//
+			let url = new URL(window.location.href)
+			let params = new URLSearchParams(url.search);
+			let create = params.get('create');
+
+			if ( create == 'true' ) {
+				const userRef = doc(this.db, "users", this.user.uid);
+
+				const payload = {
+					isUser: true
+				};
+
+				await setDoc(userRef, payload, {merge: true});
+			} else {
+				location.href = './home.html';
+			}
+			//
+
 		}
 
 		if ( user && user.uid == userShown ) {
 			this.initEditMode();
+
+			$('#send-message-button').attr('disabled', '');
 		} else {
 
 		}
@@ -104,7 +126,7 @@ const module = {
 		const $profilePermalink = $('#profile-permalink');
 		const $profileContainer = $('#profile-image-container');
 
-		const editContainer = '<div><a href="#" class="edit-button">EDIT</a>---CONTENT---</div>'
+		const editContainer = '<div class="edit-container"><a href="#" class="edit-button"><span class="fa fa-pencil"></span></a>---CONTENT---</div>'
 
 		let profileEdit = editContainer.replace('---CONTENT---', $profileName.prop('outerHTML') );
 		$profileName.replaceWith(profileEdit);
