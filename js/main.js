@@ -31,6 +31,9 @@ async function init() {
 		case 'guest-notification':
 			initGuestNotification();
 			break;
+		case 'search':
+			initSearch();
+			break;
 		default:
 			console.log('Init default case page id');
 	}
@@ -91,6 +94,12 @@ function initGuestNotification() {
 	});
 }
 
+function initSearch() {
+	import("./pages/search.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
 
 
 

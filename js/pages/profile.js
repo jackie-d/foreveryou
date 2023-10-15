@@ -59,8 +59,8 @@ const module = {
 
 		if ( userData ) {
 		  
-		  $profileName.text(userData.name);
-		  $profileNotes.text(userData.notes);
+		  $profileName.text(userData.name ?? 'No name specified');
+		  $profileNotes.text(userData.notes ?? 'No notes specified');
 		  $profilePermalink.text('@' + userData.permalink);
 
 		} else {
@@ -139,8 +139,10 @@ const module = {
 
 		$(document).on('click','.edit-button', (e) => {
 			const field = $(e.target).siblings().eq(0).attr('data-field');
-	   		const value = prompt('');
+	   		let value = prompt($(e.target).siblings().eq(0).attr('data-desc'));
 	   		this.saveValue(field, value);
+	   		if ( field == 'permalink' ) value = '@' + value;
+	   		$(e.target).siblings().eq(0).text(value);
 		}) 
 	},
 
