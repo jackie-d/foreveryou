@@ -91,6 +91,7 @@ const module = {
 			this.initEditMode();
 
 			$('#send-message-button').attr('disabled', '');
+			$('#permalink-button').show();
 		} else {
 
 		}
@@ -102,6 +103,12 @@ const module = {
 			location.href = `./send-login.html?with=${destinationUser}`;
 		});
 		//
+
+		$('#permalink-button').click(() => {
+			let permalink = location.protocol + '//' + location.host + '/' + userData.permalink;
+			/*alert(`Your permalink is: ${permalink}`);*/
+			navigator.share({ url: permalink });
+		});
 
 	},
 
@@ -137,12 +144,13 @@ const module = {
 		profileEdit = editContainer.replace('---CONTENT---', $profilePermalink.prop('outerHTML') );
 		$profilePermalink.replaceWith(profileEdit);
 
-		$(document).on('click','.edit-button', (e) => {
-			const field = $(e.target).siblings().eq(0).attr('data-field');
-	   		let value = prompt($(e.target).siblings().eq(0).attr('data-desc'));
+		$('#profile-data').on('click','.edit-button', (e) => {
+			const field = $(e.currentTarget).siblings().eq(0).attr('data-field');
+	   		let value = prompt($(e.currentTarget).siblings().eq(0).attr('data-desc'));
+	   		if ( !value ) return;
 	   		this.saveValue(field, value);
 	   		if ( field == 'permalink' ) value = '@' + value;
-	   		$(e.target).siblings().eq(0).text(value);
+	   		$(e.currentTarget).siblings().eq(0).text(value);
 		}) 
 	},
 
