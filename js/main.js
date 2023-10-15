@@ -1,9 +1,15 @@
 import firebase from './firebase-loader.js';
 
+let user = null;
 
-$(document).ready(function() {
 
-	initAuth();
+$(() => {init()});
+
+async function init() {
+
+	console.log('init');
+
+	user = await initAuth();
 
 	const pageId = $('body').attr("id");
 	switch(pageId) {
@@ -13,18 +19,31 @@ $(document).ready(function() {
 		case 'login':
 			initLogin();
 			break;
+		case 'profile':
+			initProfile();
+			break;
+		case 'guest-login':
+			initGuestLogin();
+			break;
+		case 'chat':
+			initChat();
+			break;
+		case 'guest-notification':
+			initGuestNotification();
+			break;
 		default:
 			console.log('Init default case page id');
 	}
 
-});
+}
 
 
 function initAuth(){
-	import("./services/auth.js").then((authModule) => {
+	return import("./services/auth.js").then((authModule) => {
 		authModule = authModule.default;
-		authModule.init(firebase).then((user) => {
+		return authModule.init(firebase).then((user) => {
 			initLayoutOnAuth(user);
+			return user;
 		})
 	});
 }
@@ -40,9 +59,40 @@ function initSignup() {
 function initLogin() {
 	import("./pages/login.js").then((loginModule) => {
 		loginModule = loginModule.default;
-		loginModule.init(firebase);
+		loginModule.init(firebase, user);
 	});
 }
+
+function initProfile() {
+	import("./pages/profile.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
+
+function initGuestLogin() {
+	import("./pages/guest-login.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
+
+function initChat() {
+	import("./pages/chat.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
+
+function initGuestNotification() {
+	import("./pages/guest-notification.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
+
+
+
 
 function initLayoutOnAuth(user) {
 
