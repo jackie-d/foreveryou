@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 
 const module = {
@@ -12,7 +12,6 @@ const module = {
 	guestId: null,
 	
 	init: function(firebase, user) {
-		console.log(firebase);
 
 		this.firebase = firebase;
 		this.user = user;
@@ -35,6 +34,7 @@ const module = {
 		});
 
 		this.initListen();
+		this.initUI();
 		
 	},
 
@@ -52,7 +52,7 @@ const module = {
 		.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });*/
 
 		if ( this.from ) {
-			notifyGuest(message);
+			this.notifyGuest(message);
 		}
 
 		await setDoc(doc(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages/${timestamp}`), {
@@ -68,6 +68,18 @@ const module = {
 		const unsub = onSnapshot(collection(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages`), (doc) => {
 		    console.log("Current data: ", doc.docChanges().map(e => e.doc.data()));
 		    this.addToUI(doc.docChanges().map(e => e.doc.data()));
+		});
+
+	},
+
+	initUI: function() {
+
+		if ( this.user.uid === this.fyId ) {
+			return;
+		}
+
+		getDoc(doc(this.db, "users", this.fyId)).then((doc) => {
+		    $('#title-username').text(doc.data().name ?? doc.data().permalink);
 		});
 
 	},
@@ -94,6 +106,7 @@ const module = {
 	},
 
 	notifyGuest: async function() {
+		return;
 		this.db = getFirestore(firebase);
 
 		const usersRef = collection(this.db, "users", this.from);

@@ -16,23 +16,8 @@ const module = {
 		});
 
 		$('#setup-notifications-button').click(function(){
-			const messaging = getMessaging(this.firebase);
-
-			getToken(messaging, {vapidKey: "BDNT2mEmglPVrW0fVFyUbQlWiisOAsBteAHtg38KfYanPe6HdMyYtpm0JNqiNqPRT0bcivGeHurdOCG8fB6PXGU"})
-			.then((currentToken) => {
-			  if (currentToken) {
-			    // Send the token to your server and update the UI if necessary
-			    // ...
-			    console.log(currentToken);
-			  } else {
-			    // Show permission request UI
-			    console.log('No registration token available. Request permission to generate one.');
-			    that.requestPermission();
-			  }
-			}).catch((err) => {
-			  console.log('An error occurred while retrieving token. ', err);
-			  // ...
-			});
+			
+			that.registerFCM();
 
 		});
 	},
@@ -43,6 +28,30 @@ const module = {
 		var destinationUser = url.searchParams.get("with");
 	    location.href = './chat.html?with=' + destinationUser;
 		
+	},
+
+	registerFCM: function() {
+
+		const messaging = getMessaging(this.firebase);
+
+		let that = this;
+
+		getToken(messaging, {vapidKey: "BDNT2mEmglPVrW0fVFyUbQlWiisOAsBteAHtg38KfYanPe6HdMyYtpm0JNqiNqPRT0bcivGeHurdOCG8fB6PXGU"})
+		.then((currentToken) => {
+		  if (currentToken) {
+		    // Send the token to your server and update the UI if necessary
+		    // ...
+		    console.log(currentToken);
+		  } else {
+		    // Show permission request UI
+		    console.log('No registration token available. Request permission to generate one.');
+		    that.requestPermission();
+		  }
+		}).catch((err) => {
+		  console.log('An error occurred while retrieving token. ', err);
+		  that.requestPermission();
+		});
+
 	},
 
 	requestPermission: function() {
