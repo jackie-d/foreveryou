@@ -1,4 +1,7 @@
 import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
+
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging.js";
 
 
 const module = {
@@ -6,11 +9,15 @@ const module = {
 	firebase: null,
 	user: null,
 	db: null,
+	userData: null,
+	userId: null,
+	storage: null,
 	
 	init: async function(firebase, user) {
 
 		this.firebase = firebase;
 		this.user = user;
+		this.storage = getStorage(firebase);
 
 		const $profileName = $('#profile-name');
 		const $profileNotes = $('#profile-notes');
@@ -32,14 +39,13 @@ const module = {
 		const q = query(usersRef, where("permalink", "==", userShown));
 		const querySnapshot = await getDocs(q);
 
-  		let userData = null;
   		let userId = null;
 
 		if ( querySnapshot.size > 0 ) {
 
 			querySnapshot.forEach((doc) => {
 			  	console.log(doc.id, " => ", doc.data());
-				userData = doc.data();
+				this.userData = doc.data();
 				userId = doc.id;
 			});
 
@@ -51,17 +57,20 @@ const module = {
 			const docSnap = await getDoc(docRef);
 
 			console.log("Document data:", docSnap.data());
-	  		userData = docSnap.data();
-	  		userId = docSnap.id;
+	  		this.userData = docSnap.data();
+	  		this.userId = userId = docSnap.id;
 
 		}
 
 
-		if ( userData ) {
+		if ( this.userData ) {
 		  
-		  $profileName.text(userData.name ?? 'No name specified');
-		  $profileNotes.text(userData.notes ?? 'No notes specified');
-		  $profilePermalink.text('@' + userData.permalink);
+		  $profileName.text(this.userData.name ?? 'No name specified');
+		  $profileNotes.text(this.userData.notes ?? 'No notes specified');
+		  $profilePermalink.text('@' + this.userData.permalink);
+		  if ( this.userData.imageSrc ) {
+		  	  $profileContainer.html($('<img data-field="imageSrc">').attr('src', this.userData.imageSrc));
+		  }
 
 		} else {
 			// docSnap.data() will be undefined in this case
@@ -91,7 +100,9 @@ const module = {
 			this.initEditMode();
 
 			$('#send-message-button').attr('disabled', '');
-			$('#permalink-button').show();
+			$('#permalink-group').show();
+
+			this.registerFCM();
 		} else {
 
 		}
@@ -105,9 +116,18 @@ const module = {
 		//
 
 		$('#permalink-button').click(() => {
-			let permalink = location.protocol + '//' + location.host + '/' + userData.permalink;
-			/*alert(`Your permalink is: ${permalink}`);*/
+			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
 			navigator.share({ url: permalink });
+		});
+
+		$('#permalink-show-button').click(() => {
+			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
+			alert(`Your permalink is: ${permalink}`);
+		});
+
+		$('#permalink-copy-button').click(() => {
+			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
+			navigator.clipboard.writeText(permalink);
 		});
 
 	},
@@ -127,7 +147,7 @@ const module = {
 		return userShown ?? null;
 	},
 
-	initEditMode: function() {
+	initEditMode: async function() {
 		const $profileName = $('#profile-name');
 		const $profileNotes = $('#profile-notes');
 		const $profilePermalink = $('#profile-permalink');
@@ -144,13 +164,40 @@ const module = {
 		profileEdit = editContainer.replace('---CONTENT---', $profilePermalink.prop('outerHTML') );
 		$profilePermalink.replaceWith(profileEdit);
 
-		$('#profile-data').on('click','.edit-button', (e) => {
+		profileEdit = editContainer.replace('---CONTENT---', $profileContainer.children().prop('outerHTML') );
+		$profileContainer.children().replaceWith(profileEdit);
+
+		$('#profile-data').on('click','.edit-button', async (e) => {
 			const field = $(e.currentTarget).siblings().eq(0).attr('data-field');
-	   		let value = prompt($(e.currentTarget).siblings().eq(0).attr('data-desc'));
-	   		if ( !value ) return;
-	   		this.saveValue(field, value);
-	   		if ( field == 'permalink' ) value = '@' + value;
-	   		$(e.currentTarget).siblings().eq(0).text(value);
+			let value;
+			if ( $(e.currentTarget).closest('#profile-image-container').length ) {
+				const timestamp = (new Date()).getTime();
+				const imagesRef = ref(this.storage, `images/${this.userId}_${timestamp}.jpg`);	
+				const promise = new Promise(function(resolve, reject) {
+					$('<input type="file">')
+						.on('change', async (e) => {
+			      			let firstFile = e.target.files[0];
+		      				await uploadBytes(imagesRef, firstFile);
+		      				resolve(true);
+						})
+						.click();
+				});
+				const a = await promise;
+
+				value = await getDownloadURL(imagesRef);
+		   		if ( !value ) return;
+		   		this.saveValue(field, value);
+		   		$(e.currentTarget).siblings().eq(0).attr('src', value);
+			} else {
+		   		value = prompt($(e.currentTarget).siblings().eq(0).attr('data-desc'));
+		   		if ( !value ) return;
+		   		this.saveValue(field, value);
+		   		if ( field == 'permalink' ) {
+		   			value = '@' + value;
+		   			this.userData.permalink = value;
+		   		}
+		   		$(e.currentTarget).siblings().eq(0).text(value);
+			}
 		}) 
 	},
 
@@ -162,6 +209,50 @@ const module = {
 		payload[field] = value;
 
 		await setDoc(userRef, payload, {merge: true});
+	},
+
+	registerFCM: async function() {
+
+			console.log('Register FCM');
+
+			const messaging = getMessaging(this.firebase);
+
+			let that = this;
+
+			getToken(messaging, {vapidKey: "BDNT2mEmglPVrW0fVFyUbQlWiisOAsBteAHtg38KfYanPe6HdMyYtpm0JNqiNqPRT0bcivGeHurdOCG8fB6PXGU"})
+			.then(async (currentToken) => {
+			  if (currentToken) {
+			    // Send the token to your server and update the UI if necessary
+			    // ...
+			    console.log(currentToken);
+
+			    const userRef = doc(this.db, "users", this.user.uid);
+
+				const payload = {
+					fcmToken: currentToken
+				};
+
+				await setDoc(userRef, payload, {merge: true});
+
+			  } else {
+			    // Show permission request UI
+			    console.log('No registration token available. Request permission to generate one.');
+			    that.requestPermission();
+			  }
+			}).catch((err) => {
+			  console.log('An error occurred while retrieving token. ', err);
+			  that.requestPermission();
+			});
+	},
+
+	requestPermission: function() {
+		console.log('Requesting permission...');
+		Notification.requestPermission().then((permission) => {
+			if (permission === 'granted') {
+				console.log('Notification permission granted.');
+				this.registerFCM();
+			}
+		});
 	}
 
 };

@@ -30,6 +30,9 @@ const module = {
 
 		console.log(term);
 
+		if ( term.indexOf('@') === 0 )
+			term = term.substring(1);
+
 		const q = query(usersRef, or( where("permalink", "==", term), where("name", "==", term)));
 		const querySnapshot = await getDocs(q);
 

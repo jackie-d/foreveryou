@@ -51,8 +51,8 @@
       <div class="col-lg-6" id="profile-data">
     
 
-<div class="card shadow-sm"  id="profile-image-container">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Image</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
+          <div class="" id="profile-image-container">
+            <svg class="bd-placeholder-img card-img-top" data-field="imageSrc" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Image</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
           </div>
 
 
@@ -82,7 +82,26 @@
           <p id="profile-send-button-container">
           <button id="send-message-button" class="btn btn-lg btn-primary my-2">Send message</button>
           <br />
-          <button id="permalink-button" class="btn btn-lg btn-secondary my-2" style="display: none;">Share permalink</button>
+          
+
+          <div class="btn-group" role="group" style="display: none;" id="permalink-group">
+
+            <button id="permalink-button" class="btn btn-secondary">
+              Share permalink
+            </button>
+
+            <div class="btn-group" role="group">
+              <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <li><button class="dropdown-item" id="permalink-show-button">Show permalink</button></li>
+                <li><button class="dropdown-item" id="permalink-copy-button">Copy permalink</button></li>
+              </ul>
+            </div>
+
+          </div>
+
+
         </p>
 
       </div>
