@@ -96,7 +96,7 @@ function initNotification() {
 		$toast.find('.toast-body span').text(payload.data.body);
 		$toast.find('.toast-title').text('You got a new message');
 		// 			window.open(event.notification.data.url);
-  	const paramName = payload.data.action == 'sending' ? 'from' : 'action';
+  	const paramName = payload.data.action == 'sending' ? 'from' : 'with';
 	  const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?' + paramName + '=' + payload.data.fromId
 	  $toast.find('.toast-link').attr('href', destinationUrl);
 		$toast.appendTo('body');
