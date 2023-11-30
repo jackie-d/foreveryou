@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 
 const module = {
@@ -11,7 +11,7 @@ const module = {
 	fyId: null,
 	guestId: null,
 	
-	init: function(firebase, user) {
+	init: async function(firebase, user) {
 
 		this.firebase = firebase;
 		this.user = user;
@@ -24,6 +24,16 @@ const module = {
 
 		this.fyId = this.with ?? user.uid;
 		this.guestId = this.with ? user.uid : this.from;
+
+		const chatroom = await getCountFromServer(collection(this.db, "chat", `${this.guestId}/chat/${this.fyId}/messages`));
+		console.log('chatroom', chatroom);
+		const n = chatroom.data().count;
+		
+		if ( n > 0 ) {
+			const temp = this.fyId;
+			this.fyId = this.guestId;
+			this.guestId = temp;
+		}
 
 		$('#send-button').click(() => { this.sendMessage() });
 		$('#message-text').keyup((e) => {
@@ -74,12 +84,11 @@ const module = {
 
 	initUI: function() {
 
-		if ( this.user.uid === this.fyId ) {
-			return;
-		}
+		const interlocutorId = this.user.uid === this.fyId ? this.guestId : this.fyId;
 
-		getDoc(doc(this.db, "users", this.fyId)).then((doc) => {
-		    $('#title-username').text(doc.data().name ?? doc.data().permalink);
+		getDoc(doc(this.db, "users", interlocutorId)).then((doc) => {
+			const titleName = doc.data().name ?? doc.data().permalink ?? 'guest';
+		    $('#title-username').text(titleName);
 		});
 
 	},

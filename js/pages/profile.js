@@ -135,7 +135,7 @@ const module = {
 	getUserShown: function(user) {
 		let urlPath = window.location.pathname;
 		const urlPathParts = urlPath.split('/');
-		let userShown = urlPathParts[urlPathParts.length - 1] != '' ? urlPathParts[urlPathParts.length - 1] : user?.uid;
+		let userShown = urlPathParts[urlPathParts.length - 1] != '' ? urlPathParts[urlPathParts.length - 1] : '';
 
 		if ( !userShown ) {
 			let url = new URL(window.location.href)
@@ -144,7 +144,7 @@ const module = {
 			userShown = uid;
 		}
 
-		return userShown ?? null;
+		return userShown ?? user?.uid ?? null;
 	},
 
 	initEditMode: async function() {
@@ -166,6 +166,8 @@ const module = {
 
 		profileEdit = editContainer.replace('---CONTENT---', $profileContainer.children().prop('outerHTML') );
 		$profileContainer.children().replaceWith(profileEdit);
+
+		const that = this;
 
 		$('#profile-data').on('click','.edit-button', async (e) => {
 			const field = $(e.currentTarget).siblings().eq(0).attr('data-field');
@@ -194,7 +196,7 @@ const module = {
 		   		this.saveValue(field, value);
 		   		if ( field == 'permalink' ) {
 		   			value = '@' + value;
-		   			this.userData.permalink = value;
+		   			that.userData.permalink = value;
 		   		}
 		   		$(e.currentTarget).siblings().eq(0).text(value);
 			}
