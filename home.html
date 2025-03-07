@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -10,17 +9,18 @@
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" />
-<link href="css/style.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/home.css" rel="stylesheet" />
 </head>
 <body id="home" class="text-center text-white bg-dark">
 
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <nav class="navbar navbar-expand-md navbar-dark mb-1">
     <div class="container-fluid">
-      <a class="navbar-brand" href="./">ForeverYou.com</a>
+      <a class="navbar-brand" style="font-style: italic; font-weight: 500; text-shadow: rgba(255,255,255,0.6) 0 3px 5px;" href="./">ForeverYou.com</a>
 
       <div class="col-md-3 text-end" id="topbar-signup" style="display: none">
-        <a type="button" class="btn btn-outline-primary me-2" href="./login.html">Login</a>
+        <a type="button" class="btn btn-primary me-2" href="./login.html">Login</a>
         <a type="button" class="btn btn-primary" href="./signup.html">Sign-up</a>
       </div>
 
@@ -42,18 +42,34 @@
     </div>
   </nav>
 
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
 
-  <main class="px-3">
-    <h1>Keep in touch from a web page of your without further needs.</h1>
-    <p class="lead">Get your free web page, share your web-link and get texts from anyone not registered else and with notifications.</p>
-    <p class="lead">
-      <a href="./signup.html" style="color: #333" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Get your free page</a>
-      <br />
-      <a href="./search.html" style="color: #fff" class="btn btn-lg btn-outline-primary fw-bold mt-4 border-white">Search an user</a>
-    </p>
-  </main>
+    <main class="px-3">
+      <h1>Receive all the chat texts you want as like as on your phone from anyone</h1>
+      <p class="lead">Free with <span style="font-style: italic;">Push, SMS and Email alerts</span></p>
+      <p class="lead mt-4">
+        <a href="./signup.html" style="" class="btn btn-lg btn-primary fw-bold">Create your account</a>
+      </p>
+    </main>
 
+  </div>
+
+  <div class="opening-intro row my-4">
+      <div class="col-sm-6">
+        <h3>Share your free ForeverYou ID to immediately receive chat texts from other people for free and without registration.</h3>
+      </div>
+      <div class="col-sm-6 mt-3">
+        <h3 style="text-decoration: underline; font-style: italic;">
+          <i class="fas fa-hand-point-right"></i>
+          <span>foreveryou.com/john-smith</span>
+        </h3>
+        <a href="./signup.html" class="btn btn-lg btn-primary fw-bold">Get now your free ForeverYou ID</a>
+      </div>
+  </div>
+
+  <div class="search-users d-flex w-100 p-3 mx-auto flex-column mt-4">
+    <h3 class="">With your ForeverYou ID you can also get a Profile page and find your friends!</h3>
+    <a href="./search.html" style="" class="btn btn-lg btn-secondary fw-bold mt-2">Search an user</a>
 </div>
 
 </div>

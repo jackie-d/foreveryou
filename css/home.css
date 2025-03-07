@@ -1,0 +1,61 @@
+html {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    color: #000;
+    align-items: stretch;
+}
+
+body nav {
+    display: flex;
+}
+
+.cover-container {
+    background: #fff url(../images/chat-no-registration-instant-messaging-free.jpg) no-repeat scroll center;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+@media all and (min-width: 1024px) {
+.cover-container h1 {
+    padding-right: 6rem;
+    padding-left: 6rem;
+}
+}
+
+.cover-container h1, .cover-container p {
+    color: #000;
+}
+
+.cover-container h1 {
+    text-shadow: rgba(0,0,0,0.4) 0px 0px 3px;
+}
+
+.cover-container main {
+    margin-top: 6rem;
+    margin-bottom: 10rem;
+}
+
+.opening-intro {
+    width: 100%;
+    margin: auto;
+}
+
+.opening-intro > div {
+
+}
+
+.search-users {
+    background-color: #fff;
+}
+
+.search-users h3 {
+    color: #333;
+}
