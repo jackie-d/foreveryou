@@ -4,7 +4,8 @@
   "description": "ForeverYou.com website platform, backend and project configurations",
   "main": "none.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "e2e": "cypress run"
   },
   "repository": {
     "type": "git",
