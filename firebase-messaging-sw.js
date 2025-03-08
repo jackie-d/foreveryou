@@ -26,9 +26,12 @@ messaging.onBackgroundMessage((payload) => {
     '[firebase-messaging-sw.js] Received background message ',
     payload
   );
-  // Customize notification here
-  const paramName = payload.data.action == 'sending' ? 'from' : 'action';
-  const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?' + paramName + '=' + payload.data.fromId
+
+  if ( payload.data.action == 'sending' ) {
+    return;
+  }
+
+  const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?with=' + payload.data.fromId
   const notificationTitle = 'You got a new message on ForeverYou.com';
   const notificationOptions = {
     body: payload.data.body,

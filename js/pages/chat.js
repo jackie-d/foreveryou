@@ -7,7 +7,7 @@ const module = {
 	user: null,
 	with: null,
 	db: null,
-
+	
 	fyId: null,
 	guestId: null,
 	
@@ -20,19 +20,28 @@ const module = {
 		var url = new URL(window.location);
 		this.with = url.searchParams.get("with");
 
-		this.from = url.searchParams.get("from");
+		if ( !this.with ) {
+			console.log('Parameter "with" is mandatory.');
+			//location.href = '';
+			return;
+		}
 
-		this.fyId = this.with ?? user.uid;
-		this.guestId = this.with ? user.uid : this.from;
+		const myUserId = user.uid;
+		this.otherUserId = this.with;
 
-		const chatroom = await getCountFromServer(collection(this.db, "chat", `${this.guestId}/chat/${this.fyId}/messages`));
+		this.chatroomId = undefined;
+		this.chatroomGuestId = undefined;
+
+		const chatroom = await getCountFromServer(collection(this.db, "chat", `${myUserId}/chat/${this.otherUserId}/messages`));
 		console.log('chatroom', chatroom);
 		const n = chatroom.data().count;
 		
 		if ( n > 0 ) {
-			const temp = this.fyId;
-			this.fyId = this.guestId;
-			this.guestId = temp;
+			this.chatroomId = myUserId;
+			this.chatroomGuestId = this.otherUserId;
+		} else {
+			this.chatroomId = this.otherUserId;
+			this.chatroomGuestId = myUserId;
 		}
 
 		$('#send-button').click(() => { this.sendMessage() });
@@ -61,11 +70,9 @@ const module = {
 		.getElementById("messages")
 		.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });*/
 
-		if ( this.from ) {
-			this.notifyGuest(message);
-		}
+		// this.notifyGuest(message);
 
-		await setDoc(doc(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages/${timestamp}`), {
+		await setDoc(doc(this.db, "chat", `${this.chatroomId}/chat/${this.chatroomGuestId}/messages/${timestamp}`), {
 		  uid: this.user.uid,
 		  message: message
 		});
@@ -73,9 +80,9 @@ const module = {
 
 	initListen: function() {
 
-		console.log(this.fyId);
+		console.log(this.chatroomId);
 
-		const unsub = onSnapshot(collection(this.db, "chat", `${this.fyId}/chat/${this.guestId}/messages`), (doc) => {
+		const unsub = onSnapshot(collection(this.db, "chat", `${this.chatroomId}/chat/${this.chatroomGuestId}/messages`), (doc) => {
 		    console.log("Current data: ", doc.docChanges().map(e => e.doc.data()));
 		    this.addToUI(doc.docChanges().map(e => e.doc.data()));
 		});
@@ -84,9 +91,7 @@ const module = {
 
 	initUI: function() {
 
-		const interlocutorId = this.user.uid === this.fyId ? this.guestId : this.fyId;
-
-		getDoc(doc(this.db, "users", interlocutorId)).then((doc) => {
+		getDoc(doc(this.db, "users", this.otherUserId)).then((doc) => {
 			const titleName = doc.data().name ?? doc.data().permalink ?? 'guest';
 		    $('#title-username').text(titleName);
 		});
@@ -118,7 +123,7 @@ const module = {
 		return;
 		this.db = getFirestore(firebase);
 
-		const usersRef = collection(this.db, "users", this.from);
+		const usersRef = collection(this.db, "users", this.with);
 
 		const q = query(usersRef, where("permalink", "==", userShown));
 		const querySnapshot = await getDocs(q);

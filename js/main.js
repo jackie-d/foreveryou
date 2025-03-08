@@ -88,6 +88,10 @@ function initNotification() {
 	onMessage(messaging, (payload) => {
 		console.log('Message received. ', payload);
 
+		if ( payload.data.action == 'sending' ) {
+			return;
+		}
+
 		if ( location.pathname == '/chat.html' && location.search.indexOf('=' + payload.data.fromId ) != -1 ) {
 				return;
 		}
@@ -96,8 +100,7 @@ function initNotification() {
 		$toast.find('.toast-body span').text(payload.data.body);
 		$toast.find('.toast-title').text('You got a new message');
 		// 			window.open(event.notification.data.url);
-  	const paramName = payload.data.action == 'sending' ? 'from' : 'with';
-	  const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?' + paramName + '=' + payload.data.fromId
+	  const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?with=' + payload.data.fromId
 	  $toast.find('.toast-link').attr('href', destinationUrl);
 		$toast.appendTo('body');
 
