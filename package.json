@@ -1,0 +1,32 @@
+{
+  "name": "foreveryou",
+  "version": "0.0.1",
+  "description": "ForeverYou.com website platform, backend and project configurations",
+  "main": "none.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackie-d/foreveryou.git"
+  },
+  "author": "Jackie DeglInnocenti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackie-d/foreveryou/issues"
+  },
+  "homepage": "https://github.com/jackie-d/foreveryou#readme",
+  "dependencies": {
+    "cypress": "^14.1.0",
+    "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.26.0",
+    "firebase": "^11.4.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js": "@firebase/auth"
+    }
+  }
+}
