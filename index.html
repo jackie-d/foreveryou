@@ -10,11 +10,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" />
 <link href="css/style.css" rel="stylesheet" />
+<link href="css/profile.css" rel="stylesheet" />
 </head>
-<body id="profile">
+<body id="profile" class="bg-light pb-2">
 
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="./">ForeverYou.com</a>
 
@@ -43,68 +44,74 @@
 
   <main>
 
-    <div class="container-fluid carousel">
+    <div class="container-fluid">
 
     <div class="row">
 
-      <div class="col-lg-6" id="profile-data">
-    
+      <div class="col" id="profile-data">
 
-          <div class="" id="profile-image-container">
-            <svg class="bd-placeholder-img card-img-top" data-field="imageSrc" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Image</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
+        <div class="card">
+          <div class="card-body profile-content">
+
+          <div class="profile-image-container" id="profile-image-container">
+            <svg class="bd-placeholder-img card-img-top" data-field="imageSrc" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Profile photo</title>
+              <rect width="100%" height="100%" fill="#55595c"></rect>
+              <text x="50%" y="50%" fill="#eceeef" dx="-3rem">Profile photo</text>
+            </svg>
           </div>
 
-
-          <h1 id="profile-name" data-field='name' data-desc='Your name:'>
+          <h1 id="profile-name" class="profile-name" data-field='name' data-desc='Your name:'>
             <svg class="" width="10em" height="1em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
               <rect width="100%" height="100%" fill="#ddd"></rect>
             </svg>
           </h1>
-          <p id="profile-notes" data-field='notes' data-desc='Notes about you:'>
-            <svg class="" width="15em" height="5em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
-              <rect width="100%" height="100%" fill="#ddd"></rect>
-            </svg>
-          </p>
-          <h3 id="profile-permalink" data-field='permalink' data-desc='Your unique URL permalink:'>
+          <h3 id="profile-permalink" class="profile-permalink" data-field='permalink' data-desc='Your unique URL permalink:'>
             <svg class="" width="5em" height="1em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
               <rect width="100%" height="100%" fill="#ddd"></rect>
             </svg>
           </h3>
-
-        </div>
-        <div class="col-lg-6">
+          <p id="profile-notes" class="profile-notes text-muted" data-field='notes' data-desc='Notes about you:'>
+            <svg class="" width="15em" height="5em" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <rect width="100%" height="100%" fill="#ddd"></rect>
+            </svg>
+          </p>
 
           <!-- <ul>
             <li id="profile-location">Miami, FL</li>
           </ul> -->
 
-          <p id="profile-send-button-container">
-          <button id="send-message-button" class="btn btn-lg btn-primary my-2">Send message</button>
-          <br />
-          
+          <div id="profile-send-button-container" class="profile-send-button-container">
 
-          <div class="btn-group" role="group" style="display: none;" id="permalink-group">
+          <button id="send-message-button" class="btn btn-lg btn-primary send-message-button">Chat now</button>
 
-            <button id="permalink-button" class="btn btn-secondary">
-              Share permalink
+          <div class="profile-permalink-button btn-group btn-lg" role="group" style="display: none;" id="permalink-group">
+
+            <button id="permalink-button" class="btn btn-info btn-lg">
+              Share profile...
             </button>
 
             <div class="btn-group" role="group">
-              <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button id="btnGroupDrop1" type="button" class="btn btn-info btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               </button>
               <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <li><button class="dropdown-item" id="permalink-show-button">Show permalink</button></li>
-                <li><button class="dropdown-item" id="permalink-copy-button">Copy permalink</button></li>
+                <li><button class="dropdown-item" id="permalink-share-button">Share Profile...</button></li>
+                <li><button class="dropdown-item" id="permalink-show-button">Show Profile link</button></li>
+                <li><button class="dropdown-item" id="permalink-copy-button">Copy Profile link</button></li>
               </ul>
             </div>
 
           </div>
 
 
-        </p>
+        </div>
 
       </div>
     </div>
+
+    
+          </div>
+        </div>
 
     
   </div>

@@ -99,7 +99,7 @@ const module = {
 		if ( user && user.uid == userShown ) {
 			this.initEditMode();
 
-			$('#send-message-button').attr('disabled', '');
+			$('#send-message-button').hide();
 			$('#permalink-group').show();
 
 			this.registerFCM();
@@ -115,14 +115,14 @@ const module = {
 		});
 		//
 
-		$('#permalink-button').click(() => {
+		$('#permalink-button, #permalink-share-button').click(() => {
 			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
 			navigator.share({ url: permalink });
 		});
 
 		$('#permalink-show-button').click(() => {
 			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
-			alert(`Your permalink is: ${permalink}`);
+			alert(`Your permalink is: \n${permalink}`);
 		});
 
 		$('#permalink-copy-button').click(() => {

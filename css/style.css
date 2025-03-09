@@ -8,24 +8,6 @@
 
 /**/
 
-.edit-container {
-	padding-bottom: 8px;
-}
-
-.edit-container *:nth-child(2) {
-	display: inline-block;
-}
-
-.edit-button {
-	color: #555;
-	padding: 8px;
-	border: 2px solid #aaa;
-	border-radius: 30px;
-	box-shadow: 3px 3px 3px #ccc;
-	display: inline-block;
-	margin-right: 8px;
-}
-
 .navbar .dropdown-toggle::after {
 	color: white;
 }
@@ -33,4 +15,10 @@
 #profile-image-container img{
 	max-width: 100%;
 	max-height: 400px;
+}
+
+/* */
+
+.send-message-button {
+	
 }
