@@ -12,6 +12,8 @@ const module = {
 	userData: null,
 	userId: null,
 	storage: null,
+
+	isQrGenerated: false,
 	
 	init: async function(firebase, user) {
 
@@ -100,6 +102,7 @@ const module = {
 			this.initEditMode();
 
 			$('#send-message-button').hide();
+			$('#show-qrcode-button').show();
 			$('#permalink-group').show();
 
 			this.registerFCM();
@@ -112,6 +115,19 @@ const module = {
 		$("#send-message-button").click(() => {
 			let destinationUser = userId;
 			location.href = `./send-login.html?with=${destinationUser}`;
+		});
+
+		
+		$("#show-qrcode-button").click(() => {
+			if ( !this.isQrGenerated ) {
+				this.isQrGenerated = true;
+				this.generateQrCode();
+			}
+			$("#qrcode-container").show();
+			$("#qrcode-content").show();
+		});
+		$("#qrcode-container").click(() => {
+			$("#qrcode-container").hide();
 		});
 		//
 
@@ -128,6 +144,19 @@ const module = {
 		$('#permalink-copy-button').click(() => {
 			let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
 			navigator.clipboard.writeText(permalink);
+		});
+
+	},
+
+	generateQrCode: function() {
+		let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
+		var qrcode = new QRCode("qrcode-content", {
+			text: permalink,
+			width: 256,
+			height: 256,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
 		});
 
 	},
