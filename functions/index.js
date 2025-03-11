@@ -13,15 +13,15 @@ if ( admin.apps.length === 0 ) {
 
 
 exports.onChatMessage = onDocumentWritten({
-		document: "chat/{userId}/chat/{guestId}/messages/{message}",
+		document: "chat/{chatroomOwnerId}/chat/{chatroomGuestId}/messages/{message}",
 		maxInstances: 2
 	}, async (event) => {
 
-		console.log('message');
+	console.log('message');
 		
 	const timestap = event.params.message;
-	const userId = event.params.userId;
-	const guestId = event.params.guestId;
+	const chatroomOwnerId = event.params.chatroomOwnerId;
+	const chatroomGuestId = event.params.chatroomGuestId;
 
 	const message = event.data.after.data();
 	let text = message.message;
@@ -34,41 +34,41 @@ exports.onChatMessage = onDocumentWritten({
 
  	const userSenderId = message.uid;
 
- 	const recipientId = userSenderId == userId ? guestId : userId;
+ 	const recipientId = userSenderId == chatroomOwnerId ? chatroomGuestId : chatroomOwnerId;
 
 	//
     let db = admin.firestore();
-    const userSnap = await db.collection("users").doc(recipientId).get();
+    const recipientUserSnap = await db.collection("users").doc(recipientId).get();
 
-    if ( !userSnap.exists ) {
+    if ( !recipientUserSnap.exists ) {
     	throw new Error(`onChatMessage error: user ${recipientId} does not exist`);
     }	
 
-	const user = userSnap.data();
-	const fcmToken = user.fcmToken;
+	const recipientUser = recipientUserSnap.data();
+	const recipientFcmToken = recipientUser.fcmToken;
 
-	if ( !fcmToken ) {
+	if ( !recipientFcmToken ) {
 		console.log(`onChatMessage info: No FCM token for user ${recipientId}`);
 		return;
 	}
 
    	//
 	const payload = {
-		token: fcmToken,
+		token: recipientFcmToken,
 		data: {
 			body: text,
-			fromId: guestId,
-
+			fromId: userSenderId,
+			action: 'receiving'
 		}
 	};
 
-	if ( userSenderId == userId ) {
-		payload['data']['fromId'] = userId
-		payload['data']['action'] = 'receiving'
-	} else {
-		payload['data']['fromId'] = guestId
-		payload['data']['action'] = 'sending'
-	}
+	// if ( userSenderId == chatroomOwnerId ) {
+	// 	payload['data']['fromId'] = chatroomOwnerId
+	// 	payload['data']['action'] = 'receiving'
+	// } else {
+	// 	payload['data']['fromId'] = chatroomGuestId
+	// 	payload['data']['action'] = 'sending'
+	// }
 
 	admin.messaging().send(payload).then((response) => {
 		// Response is a message ID string.
