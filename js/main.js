@@ -52,8 +52,17 @@ function initAuth(){
 	return import("./services/auth.js").then((authModule) => {
 		authModule = authModule.default;
 		return authModule.init(firebase).then((user) => {
-			initLayoutOnAuth(user);
-			return user;
+
+			return import("./services/user.js").then((userModule) => {
+				userModule = userModule.default;
+				return userModule.init(firebase, user).then(() => {
+					userModule.getUserInstance().then(userData => {
+						initLayoutOnAuth(userData);
+					});
+					return user;
+				});
+			});
+
 		})
 	});
 }
@@ -166,16 +175,16 @@ function initChats() {
 	});
 }
 
-function initLayoutOnAuth(user) {
+function initLayoutOnAuth(userData) {
 
-	console.log(user);
-
-
-	if ( user ) {
+	if ( userData ) {
 		$('#topbar-user').show();
 	} else {
 		$('#topbar-signup').show();
 	}
 
+	if ( userData.imageSrc ) {
+		$('#navbar-profile-picture').attr('src', userData.imageSrc);
+	}
 
 }
