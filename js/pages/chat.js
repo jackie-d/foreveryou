@@ -7,9 +7,13 @@ const module = {
 	user: null,
 	with: null,
 	db: null,
+
+	userData: null,
 	
 	fyId: null,
 	guestId: null,
+
+	otherUserData: null,
 	
 	init: async function(firebase, user) {
 
@@ -92,8 +96,29 @@ const module = {
 	initUI: function() {
 
 		getDoc(doc(this.db, "users", this.otherUserId)).then((doc) => {
-			const titleName = doc.data().name ?? doc.data().permalink ?? 'guest';
+			this.otherUserData = doc.data();
+			const titleName = this.otherUserData.name ?? this.otherUserData.permalink ?? 'guest';
 		    $('#title-username').text(titleName);
+
+			if ( this.otherUserData.imageSrc ) {
+				$('.other-bubble .avatar').attr('src', this.otherUserData.imageSrc);
+			}
+
+		});
+
+		import("../services/user.js").then((userModule) => {
+			userModule = userModule.default;
+			userModule.init(this.firebase, this.user).then(() => {
+				userModule.getUserInstance().then(userData => {
+
+					this.userData = userData;
+
+					if ( this.userData.imageSrc ) {
+						$('.my-bubble .avatar').attr('src', this.userData.imageSrc);
+					}
+
+				});
+			});
 		});
 
 	},
