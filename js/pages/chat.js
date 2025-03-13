@@ -8,6 +8,11 @@ const module = {
 	with: null,
 	db: null,
 
+	chatroomId: null,
+	chatroomGuestId: null,
+
+	otherUserId: null,
+
 	userData: null,
 	
 	fyId: null,
@@ -76,9 +81,21 @@ const module = {
 
 		// this.notifyGuest(message);
 
-		await setDoc(doc(this.db, "chat", `${this.chatroomId}/chat/${this.chatroomGuestId}/messages/${timestamp}`), {
-		  uid: this.user.uid,
-		  message: message
+		setDoc(doc(this.db, "chat", `${this.chatroomId}/chat/${this.chatroomGuestId}/messages/${timestamp}`), {
+			uid: this.user.uid,
+			message: message
+		});
+
+		setDoc(doc(this.db, "userChats", `${this.user.uid}`, 'otherUser', `${this.otherUserId}`), {
+			'chatroomId': this.chatroomId,
+			'timestamp': timestamp,
+			'lastMessage': message
+		});
+
+		setDoc(doc(this.db, "userChats", `${this.otherUserId}`, 'otherUser', `${this.user.uid}`), {
+			'chatroomId': this.chatroomId,
+			'timestamp': timestamp,
+			'lastMessage': message
 		});
 	},
 
