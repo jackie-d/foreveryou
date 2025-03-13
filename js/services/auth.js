@@ -39,19 +39,15 @@ const module = {
 
 		});
 
-		// handle signout button
-		$('.signout-button').click(() => {
-			signOut(auth).then(() => {
-			  location.href = './'
-			}).catch((error) => {
-			 	console.log(error);
-			});
-		})
-
 		// ---
 
 		return promise;
 
+	},
+
+	signOut: function() {
+		const auth = getAuth();
+		return signOut(auth);
 	}
 
 };

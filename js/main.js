@@ -4,6 +4,8 @@ import { getMessaging, onMessage } from "https://www.gstatic.com/firebasejs/10.5
 
 
 let user = null;
+let authModule = null;
+let userModule = null;
 
 
 $(() => {init()});
@@ -49,12 +51,12 @@ async function init() {
 
 
 function initAuth(){
-	return import("./services/auth.js").then((authModule) => {
-		authModule = authModule.default;
+	return import("./services/auth.js").then((authModuleExport) => {
+		authModule = authModuleExport.default;
 		return authModule.init(firebase).then((user) => {
 
-			return import("./services/user.js").then((userModule) => {
-				userModule = userModule.default;
+			return import("./services/user.js").then((userModuleExport) => {
+				userModule = userModuleExport.default;
 				return userModule.init(firebase, user).then(() => {
 					userModule.getUserInstance().then(userData => {
 						initLayoutOnAuth(userData);
@@ -186,5 +188,15 @@ function initLayoutOnAuth(userData) {
 	if ( userData.imageSrc ) {
 		$('#navbar-profile-picture').attr('src', userData.imageSrc);
 	}
+
+	// handle signout button
+	$('.signout-button').click(async () => {
+		await userModule.removeFcmToken();
+		authModule.signOut().then(() => {
+			location.href = './';
+		}).catch((error) => {
+			console.log(error);
+		});
+	})
 
 }

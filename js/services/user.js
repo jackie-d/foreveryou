@@ -1,4 +1,4 @@
-import { doc, getDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { doc, getDoc, setDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 
 const module = {
@@ -37,6 +37,16 @@ const module = {
 			await this.loadUser();
 		}
 		return this.userData;
+	},
+
+	removeFcmToken: async function() {
+		const userRef = doc(this.db, "users", this.user.uid);
+
+		const payload = {
+			fcmToken: null
+		};
+
+		await setDoc(userRef, payload, {merge: true});
 	}
 
 };
