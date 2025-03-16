@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ForeverYou.com</title>
+  <title>Search - ForeverYou.com - Instant Messaging free for everyone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" />
-<link href="css/style.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/search.css" rel="stylesheet" />
 </head>
 <body id="search" style="background-color: #eee">
 
@@ -49,7 +50,7 @@
 
            <div class="col-lg-6 col-xxl-4 mb-5 p-5 mx-auto">
 
-              <h2 class="mb-5 text-center">Search a person</h2>
+              <h2 class="mb-2 text-center">Search for a person</h2>
 
                 <div class="d-grid gap-2">
    
@@ -60,19 +61,23 @@
 
                       <div class="col-12">
                         <div class="input-group has-validation">
-                          <input type="text" id="search-term" class="form-control" id="@name or nickname" placeholder="" required="">
+                          <input type="text" id="search-term" class="form-control" placeholder="" required="">
                         </div>
                       </div>
 
-                      <button class="btn btn-primary" id="search">Search</button>
+                      <button class="btn btn-primary" id="search">
+                        <span id="search-button-icon" class="fa fa-spinner fa-spin" style="display: none;"></span>
+                        Search
+                      </button>
 
                   </div>
             
-
-                  <p class="text-small mt-3 mb-1">Results:</p>
-                  <ul id="results" class="list-group">
-
-                  </ul>
+                  <div id="results-box" style="display: none;">
+                    <p class="text-small mt-3 mb-1 results-label" id="results-label">Results:</p>
+                    <ul id="results" class="list-group">
+                    </ul>
+                    <p class="text-center text-muted" id="results-no-results-label">No results found.</p>
+                  </div>
 
 
                 </div>

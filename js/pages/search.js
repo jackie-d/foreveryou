@@ -22,6 +22,7 @@ const module = {
 
 	search: async function() {
 
+		$('#search-button-icon').show();
 		const term = $('#search-term').val();
 
 		this.db = getFirestore(this.firebase);
@@ -36,17 +37,26 @@ const module = {
 		const q = query(usersRef, or( where("permalink", "==", term), where("name", "==", term)));
 		const querySnapshot = await getDocs(q);
 
+		$('#search-button-icon').hide();
+		$('#results-box').show();
 		$('#results').empty();
+
+		if ( querySnapshot.size > 0 ) {
+			$('#results-no-results-label').hide();
+		} else {
+			$('#results-no-results-label').show();
+		}
+
 		querySnapshot.forEach((doc) => {
 		  	console.log(doc.id, " => ", doc.data());
 			let userData = doc.data();
 			if ( ! userData.permalink ) return;
 			$('#results').append(
 				
-						$('<a>')
+					$('<a>')
 						.attr('class', 'list-group-item list-group-item-action')
 						.attr('href', `./${userData.permalink}`)
-						.text(`@${userData.permalink} - ${userData.name ?? 'No name specified'}`)
+						.html(`<span class="results-name">${userData.name ?? 'No name specified'}</span> <span class="results-permalink">@${userData.permalink}</span>`)
 				
 			)
 			
