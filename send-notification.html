@@ -49,17 +49,22 @@
 
            <div class="col-lg-6 col-xxl-4 mb-5 p-5 mx-auto">
 
-              <h2 class="mb-5">Choose a way to receive the response notification to your message</h2>
+              <h2 class="mb-5">Choose how to receive the response's notification to your messages</h2>
 
                 <div class="d-grid gap-2">
    
 
                   <div class="row g-3">
 
-               
+                      <div class="col-12">
+                        <label for="address" class="form-label">Receive Push Notification for new messages</label>
+                        <div class="d-grid gap-2">
+                          <button class="btn btn-secondary" type="button" id="setup-notifications-button">Subscribe to Push Notification</button>
+                        </div>
+                      </div>
 
                       <div class="col-12">
-                        <label for="username" class="form-label">SMS</label>
+                        <label for="username" class="form-label">Receive SMS <span class="badge bg-warning">Coming soon</span></label>
                         <div class="input-group has-validation">
                           <span class="input-group-text">Tel</span>
                           <input disabled type="text" class="form-control" id="username" placeholder="" required="">
@@ -70,17 +75,10 @@
                       </div>
 
                       <div class="col-12">
-                        <label for="email" class="form-label">Email <span class="text-body-secondary"></span></label>
+                        <label for="email" class="form-label">Receive Email <span class="badge bg-warning">Coming soon</span></label>
                         <input disabled type="email" class="form-control" id="email" placeholder="you@example.com">
                         <div class="invalid-feedback">
                           Please enter a valid email address.
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <label for="address" class="form-label">Push notification</label>
-                        <div class="d-grid gap-2">
-                          <button class="btn btn-outline-secondary" type="button" id="setup-notifications-button">Subscribe to Push Notification</button>
                         </div>
                       </div>
 
@@ -89,7 +87,7 @@
 
                   <div class="col-12 mt-5">
                     <div class="d-grid gap-2">
-                      <a href="#" class="btn btn-primary btn-lg" type="button" id="continue-button" >Continue</a>
+                      <a href="#" class="btn btn-primary btn-lg" type="button" id="continue-button" >Continue to chat</a>
                     </div>
                   </div>
 
