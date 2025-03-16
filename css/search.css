@@ -1,0 +1,12 @@
+.results-label {
+    font-style: italic !important;
+}
+
+.results-name {
+    font-weight: 700;
+}
+
+.results-permalink {
+    font-size: smaller;
+    color: #555;
+}
