@@ -60,6 +60,7 @@ const module = {
 		     this.sendMessage();
 		   }
 		});
+		$("a#notification-settings-button").attr('href', `./send-notification.html?with=${this.with}`);
 
 		this.initListen();
 		this.initUI();
