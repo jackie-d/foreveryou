@@ -47,6 +47,18 @@ const module = {
 		};
 
 		await setDoc(userRef, payload, {merge: true});
+	},
+
+	initNewUser: async function(user) {
+		this.db = getFirestore(this.firebase);
+		
+		const userRef = doc(this.db, "users", user.uid);
+
+		const payload = {
+			isUser: true
+		};
+
+		await setDoc(userRef, payload, {merge: true});
 	}
 
 };

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ForeverYou.com</title>
+  <title>Messaging for free with your friend - ForeverYou.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -30,12 +30,27 @@
 
            <div class="col-lg-6 col-xxl-4 mb-5 p-5 mx-auto">
 
-              <h2 class="">Get now for free an anonymous access using any of your accounts or create a free one</h2>
-              <p class="mb-5">You will immediately get a free access to the chat, the history of your conversations and the possibility to open a new profile for yourself</p>
+            <h2 class="">Get now for free an anonymous access using any of your accounts or create a free one</h2>
+            <p class="mb-5">You will immediately get a free access to the chat, the history of your conversations and the possibility to open a new profile for yourself</p>
 
             <div class="d-grid gap-2">
 
-              <button class="btn btn-primary" type="button" disabled>Use Email address (anonymous)</button>
+              <button class="btn btn-primary" type="button" id="email-login">Use Email address (anonymous)</button>
+
+              <div class="row" id="email-signup-container" style="display: none;">
+                <div class="col">
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control mb-1" type="text" placeholder="user@example.com" id="email" />
+                    <label>Password</label>
+                    <input class="form-control mb-2" type="password" placeholder="Password" id="password" />
+                    <button class="btn btn-outline-primary mb-1" id="email-signup-submit">Sign-up</button>
+                    <br />
+                    <a class="mx-2" id="login-link">Already have an account? Login</a>
+                  </div>
+                </div>
+              </div>
+
               <a class="btn btn-primary" id="google-login">Use Google account (anonymous)</a>
               <button class="btn btn-primary" type="button" disabled>Use Facebook account (anonymous)</button>
               <button class="btn btn-secondary" type="button" disabled>Login with SMS (anonymous)</button>
