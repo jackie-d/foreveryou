@@ -36,7 +36,10 @@ const module = {
 		    // Signed in 
 		    const user = userCredential.user;
 		    console.log(user);
-		    location.href="./";
+
+			const redirectUrl = this.getRedirectLocation();
+
+		    location.href = redirectUrl;
 		  })
 		  .catch((error) => {
 		    const errorCode = error.code;
@@ -57,7 +60,9 @@ const module = {
 		    const token = credential.accessToken;
 		    const user = result.user;
 
-		    location.href = "./";
+			const redirectUrl = this.getRedirectLocation();
+
+		    location.href = redirectUrl;
 		  }).catch((error) => {
 		    const errorCode = error.code;
 		    const errorMessage = error.message;
@@ -69,6 +74,18 @@ const module = {
 
 	loginByFacebook: function() {
 
+	},
+
+	getRedirectLocation: function() {
+		let destinationUrl = './';
+
+		var currentUrl = new URL(window.location);
+		var withUser = currentUrl.searchParams?.get("with");
+		if ( withUser ) {
+			destinationUrl = './send-notification.html?with=' + withUser;
+		}
+
+		return destinationUrl;
 	}
 
 };

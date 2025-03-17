@@ -84,13 +84,7 @@ const module = {
 			let create = params.get('create');
 
 			if ( create == 'true' ) {
-				const userRef = doc(this.db, "users", this.user.uid);
-
-				const payload = {
-					isUser: true
-				};
-
-				await setDoc(userRef, payload, {merge: true});
+				await userModule.initNewUser(user);
 			} else {
 				location.href = './home.html';
 			}

@@ -185,7 +185,7 @@ function initLayoutOnAuth(userData) {
 		$('#topbar-signup').show();
 	}
 
-	if ( userData.imageSrc ) {
+	if ( userData?.imageSrc ) {
 		$('#navbar-profile-picture').attr('src', userData.imageSrc);
 	}
 

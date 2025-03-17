@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 
 const module = {
@@ -21,6 +21,21 @@ const module = {
 		const that = this;
 		$('#google-login').click(function(){
 			that.loginByGoogle();
+		});
+
+		$('#email-login').click(function(){
+			$('#email-signup-container').slideToggle();
+		});
+
+		$("#email-signup-submit").click(() => {
+			that.signupByEmail();
+		});
+
+		$('#login-link').click(function(){
+			var url = new URL(window.location);
+			var destinationUser = url.searchParams.get("with");
+			const loginUrl = `./login.html?with=${destinationUser}`;
+			location.href = loginUrl;
 		});
 	},
 
@@ -56,23 +71,37 @@ const module = {
 		  });
 	},
 
-	loginByEmail: function() {
+	signupByEmail: function() {
 
 		const auth = getAuth(this.firebase);
 
 		const email = $('#email').val();
 		const password = $('#password').val();
 	
-		signInWithEmailAndPassword(auth, email, password)
-		  .then((userCredential) => {
-		    // Signed in 
+		createUserWithEmailAndPassword(auth, email, password)
+		  .then(async (userCredential) => {
+		    // Signed up 
 		    const user = userCredential.user;
+
 		    console.log(user);
-		    location.href="./";
+
+			await import("../services/user.js").then(async (userModule) => {
+				userModule = userModule.default;
+				return userModule.init(this.firebase, user).then(async () => {
+					
+					return await userModule.initNewUser(user);
+				});
+			});
+
+			var url = new URL(window.location);
+			var destinationUser = url.searchParams.get("with");
+		    location.href = './send-notification.html?with=' + destinationUser;
 		  })
 		  .catch((error) => {
 		    const errorCode = error.code;
 		    const errorMessage = error.message;
+			alert(error.message);
+		    console.log(error);
 		  });
 
 	}
