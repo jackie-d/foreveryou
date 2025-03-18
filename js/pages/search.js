@@ -10,10 +10,10 @@ const module = {
 		this.firebase = firebase;
 
 		const that = this;
-		$('#search').click(function(){
+		$('#search-button').click(function(){
 			that.search();
 		});
-		$('#term').keypress((e) => {
+		$('#search-term').keypress((e) => {
 			if ( e.keyCode == 13 ) {
 				that.search();
 			}
