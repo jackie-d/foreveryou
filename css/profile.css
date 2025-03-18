@@ -3,6 +3,10 @@ body {
     z-index: 1;
 }
 
+body nav {
+    display: flex;
+}
+
 /* */
 
 .edit-container {
