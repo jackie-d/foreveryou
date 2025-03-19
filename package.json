@@ -1,7 +1,7 @@
 {
   "name": "foreveryou",
   "version": "0.0.1",
-  "description": "ForeverYou.com website platform, backend and project configurations",
+  "description": "ForeverYou.day website platform, backend and project configurations",
   "main": "none.js",
   "scripts": {
     "test": "jest",
