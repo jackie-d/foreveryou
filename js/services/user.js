@@ -59,6 +59,8 @@ const module = {
 		};
 
 		await setDoc(userRef, payload, {merge: true});
+
+		return payload;
 	}
 
 };
