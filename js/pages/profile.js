@@ -14,6 +14,8 @@ const module = {
 	storage: null,
 
 	isQrGenerated: false,
+
+	userModule: null,
 	
 	init: async function(firebase, user) {
 
@@ -84,7 +86,12 @@ const module = {
 			let create = params.get('create');
 
 			if ( create == 'true' ) {
-				await userModule.initNewUser(user);
+				const that = this;
+				await import("../services/user.js").then(async (userModuleExport) => {
+					that.userModule = userModuleExport.default;
+					return await that.userModule.init(firebase, user).then(() => {});
+				});
+				this.userData = await this.userModule.initNewUser(user);
 			} else {
 				location.href = './home.html';
 			}
