@@ -179,6 +179,12 @@ function initChats() {
 
 function initLayoutOnAuth(userData) {
 
+	let url = new URL(window.location.href)
+	let params = new URLSearchParams(url.search);
+	if ( params.get('create') && !userData) {
+		userData = {};
+	}
+
 	if ( userData ) {
 		$('#topbar-user').show();
 	} else {
