@@ -6,6 +6,12 @@
 	text-shadow: rgba(255,255,255,0.6) 0 3px 5px;
 }
 
+/* Utils */
+
+.text-medium {
+	font-size: medium;
+}
+
 /**/
 
 .navbar .dropdown-toggle::after {
