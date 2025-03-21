@@ -59,3 +59,25 @@ body nav {
 .search-users h3 {
     color: #333;
 }
+
+.home-feature-list {
+    text-align: left;
+    background-color: white;
+    color: #000;
+    box-sizing: border-box;
+}
+
+.home-feature-list > .row > div {
+    padding-left: 48px;
+    padding-right: 8px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.home-feature-list > .row > div > h4 {
+    margin-bottom: 0px;
+}
+
+.home-intro-description {
+    
+}
