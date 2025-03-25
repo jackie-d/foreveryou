@@ -81,3 +81,40 @@ body nav {
 .home-intro-description {
     
 }
+
+.home-user-review {
+    background-color: white;
+    color: #000;
+}
+
+.home-user-review .square{
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.home-user-review .square h3 {
+    font-size: 48px;
+}
+
+.home-user-review .square p {
+    font-style: italic;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.home-user-review .review-text {
+    font-style: italic;
+}
+
+.home-user-review .review-text h3{
+    font-weight: 900;
+}
+
+.info-section {
+    text-align: left;
+}
+
+.footer p{
+    font-size: 12px;
+}
