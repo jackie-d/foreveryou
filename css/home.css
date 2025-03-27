@@ -115,6 +115,87 @@ body nav {
     text-align: left;
 }
 
+.explanation-section {
+    background-color: white;
+    color: #000;
+}
+
+.explanation-section ol {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 32px;
+    padding-left: 48px;
+}
+
+.explanation-section ol li {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 33.3333%;
+    padding-left: 12px;
+    text-align: left;
+    font-size: 28px;
+    padding-right: 48px;
+    margin-bottom: 1.5rem;
+}
+
+.explanation-section ol li h4 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.explanation-section ol li p {
+    font-size: 21px;
+}
+
+@media screen and (max-width: 1024px) {
+    .explanation-section ol {
+        flex-direction: column;
+    }
+
+    .explanation-section ol li{
+        padding-right: 0px;
+    } 
+}
+
+.explanation-section .explaination-url {
+    font-weight: 200;
+}
+
+.explanation-section p.explaination-reference {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 32px;
+    margin-bottom: 16px;
+    font-style: italic;
+}
+
+.pros-section {
+
+}
+
+.pros-section .row {
+    display: flex;
+    flex-direction: row;
+}
+
+.pros-section .row .col{
+    padding-bottom: 24px;
+    display: flex;
+}
+
+.pros-section h4 {
+    padding: 32px;
+    margin: 0 16px;
+    margin-bottom: 8px;
+    border: 2px solid  white;
+    text-transform: uppercase;
+    box-sizing: content-box;
+    align-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
 .footer p{
     font-size: 12px;
 }
