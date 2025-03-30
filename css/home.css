@@ -196,6 +196,74 @@ body nav {
     flex-grow: 1;
 }
 
+.cta-chat {
+    background-color: #fff;
+    color: #000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+@media screen and (max-width: 992px) {
+    .cta-chat {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.user-case-window {
+
+}
+
+.user-case-window .title-label {
+    font-style: italic;
+    margin-bottom: 48px;;
+}
+
+.user-case-window .user-case-container {
+    margin-bottom: 48px;
+}
+
+.user-case-window .user-case-container h4 {
+    font-weight: 900;
+    margin-bottom: 16px;
+}
+
+.user-case-window .user-case-container p.info-label {
+    font-size: smaller;
+    margin: 0;
+}
+
+.user-case-window .user-case-container p.pro-label {
+    margin-top: 8px;
+    font-weight: 500;
+    font-size: larger;
+}
+
+.user-case-window .user-case-container ul {
+    text-align: center;
+    list-style: none;
+    padding-left: 0;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-case-window .user-case-container ul li {
+    font-size: smaller;
+    text-transform: uppercase;
+    border-bottom: 1px solid #555;
+}
+
+.user-case-window .user-case-container ul li:last-child {
+    border-bottom: 0;
+}
+
+/* */
+
 .footer p{
     font-size: 12px;
 }
