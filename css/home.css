@@ -262,6 +262,36 @@ body nav {
     border-bottom: 0;
 }
 
+.description-box {
+    background-color: #fff;
+    color: #000;
+}
+
+.description-box .description-box-text {
+    text-align: left;
+}
+
+.description-box .description-box-instruction-label {
+    font-size: smaller;
+    font-style: italic;
+}
+
+.cta-free-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+@media screen and (max-width: 992px) {
+    .cta-free-box {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+
 /* */
 
 .footer p{
