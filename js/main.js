@@ -43,6 +43,9 @@ async function init() {
 		case 'chats':
 			initChats();
 			break;
+		case 'home':
+			initHome();
+			break;
 		default:
 			console.log('Init default case page id');
 	}
@@ -172,6 +175,13 @@ function initSearch() {
 
 function initChats() {
 	import("./pages/chats.js").then((module) => {
+		module = module.default;
+		module.init(firebase, user);
+	});
+}
+
+function initHome() {
+	import("./pages/home.js").then((module) => {
 		module = module.default;
 		module.init(firebase, user);
 	});
