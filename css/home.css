@@ -291,6 +291,23 @@ body nav {
     }
 }
 
+.quick-signup-box {
+    background-color: #fff;
+    color: #000;
+}
+
+.quick-signup-box .subtitle-label {
+    font-style: italic;
+    font-weight: 600;
+}
+
+.quick-signup-box .email-subtitle-label {
+    font-size: smaller;
+}
+
+.quick-signup-box .button-cta-label {
+    font-weight: 500;
+}
 
 /* */
 
