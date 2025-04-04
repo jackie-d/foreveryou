@@ -14,6 +14,7 @@ const module = {
 	storage: null,
 
 	isQrGenerated: false,
+	isRequireNickname: false,
 
 	userModule: null,
 	
@@ -70,10 +71,13 @@ const module = {
 		if ( this.userData ) {
 		  
 		  $profileName.text(this.userData.name ?? 'No name specified');
-		  $profileNotes.text(this.userData.notes ?? 'No notes specified');
+		  $profileNotes.text(this.userData.notes ?? 'No bio notes specified');
 		  $profilePermalink.text('@' + this.userData.permalink);
 		  if ( this.userData.imageSrc ) {
 		  	  $profileContainer.html($('<img data-field="imageSrc">').attr('src', this.userData.imageSrc));
+		  }
+		  if ( !this.userData.permalink ) {
+			this.isRequireNickname = true;
 		  }
 
 		} else {
@@ -92,6 +96,7 @@ const module = {
 					return await that.userModule.init(firebase, user).then(() => {});
 				});
 				this.userData = await this.userModule.initNewUser(user);
+				this.isRequireNickname = true;
 			} else {
 				location.href = './home.html';
 			}
@@ -111,6 +116,9 @@ const module = {
 
 		}
 
+		if ( this.isRequireNickname ) {
+			$('#permalink-edit-button').click();
+		}
 
 		//
 		$("#send-message-button").click(() => {
@@ -147,10 +155,15 @@ const module = {
 			navigator.clipboard.writeText(permalink);
 		});
 
+		if ( this.isRequireNickname ) {
+			this.toggleProfileButtons(false);
+		}
+
 	},
 
 	generateQrCode: function() {
 		let permalink = location.protocol + '//' + location.host + '/' + this.userData.permalink;
+		$('#qrcode-content').empty();
 		var qrcode = new QRCode("qrcode-content", {
 			text: permalink,
 			width: 256,
@@ -160,6 +173,22 @@ const module = {
 			correctLevel : QRCode.CorrectLevel.H
 		});
 
+	},
+
+	toggleProfileButtons: function(isEnabled) {
+		if ( isEnabled ) {
+			$('#permalink-button').removeAttr('disabled');
+			$('#permalink-share-button').removeAttr('disabled');
+			$('#permalink-show-button').removeAttr('disabled');
+			$('#permalink-copy-button').removeAttr('disabled');
+			$("#show-qrcode-button").removeAttr('disabled');
+		} else {
+			$('#permalink-button').attr('disabled', true);
+			$('#permalink-share-button').attr('disabled', true);
+			$('#permalink-show-button').attr('disabled', true);
+			$('#permalink-copy-button').attr('disabled', true);
+			$("#show-qrcode-button").attr('disabled', true);
+		}
 	},
 
 	getUserShown: function(user) {
@@ -177,7 +206,7 @@ const module = {
 		return userShown ?? user?.uid ?? null;
 	},
 
-	initEditMode: async function() {
+	initEditMode: function() {
 		const $profileName = $('#profile-name');
 		const $profileNotes = $('#profile-notes');
 		const $profilePermalink = $('#profile-permalink');
@@ -193,6 +222,7 @@ const module = {
 
 		profileEdit = editContainer.replace('---CONTENT---', $profilePermalink.prop('outerHTML') );
 		$profilePermalink.replaceWith(profileEdit);
+		$('#profile-permalink').siblings('a').eq(0).attr('id','permalink-edit-button');
 
 		profileEdit = editContainer.replace('---CONTENT---', $profileContainer.children().prop('outerHTML') );
 		$profileContainer.children().replaceWith(profileEdit);
@@ -225,8 +255,11 @@ const module = {
 		   		if ( !value ) return;
 		   		this.saveValue(field, value);
 		   		if ( field == 'permalink' ) {
-		   			value = '@' + value;
 		   			that.userData.permalink = value;
+					this.isRequireNickname = false;
+					this.generateQrCode();
+					this.toggleProfileButtons(true);
+					value = '@' + value;
 		   		}
 		   		$(e.currentTarget).siblings().eq(0).text(value);
 			}
