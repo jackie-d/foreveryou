@@ -197,6 +197,7 @@ function initLayoutOnAuth(userData) {
 
 	if ( userData ) {
 		$('#topbar-user').show();
+		$(".navbar .navbar-brand").attr("href", "./");
 	} else {
 		$('#topbar-signup').show();
 	}
