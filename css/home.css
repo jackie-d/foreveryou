@@ -60,6 +60,36 @@ body nav {
     color: #333;
 }
 
+.quick-signup-strip-box {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 0;
+    gap: 4px;
+    align-items: center;
+}
+
+@media screen and (max-width: 992px) {
+    .quick-signup-strip-box {
+        flex-direction: column;
+    }
+}
+
+.quick-signup-strip-box p, .quick-signup-strip-box button {
+    word-break: keep-all;
+    word-wrap: normal;
+    word-spacing: normal;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 992px) {
+    .quick-signup-strip-box p{
+        display: none;
+    }
+}
+
 .home-feature-list {
     text-align: left;
     background-color: white;
