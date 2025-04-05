@@ -14,6 +14,10 @@ const module = {
 			that.signupByEmail();
 		});
 
+		$('#strip-signup-submit').click(function(){
+			that.signupByEmail(true);
+		});
+
 		$('#signup-google-button').click(function(){
 			that.signupByGoogle();
 		});
@@ -26,12 +30,20 @@ const module = {
         });
     },
 
-    signupByEmail: function() {
+    signupByEmail: function(isStripSignup = false) {
 
 		const auth = getAuth(this.firebase);
 
-		const email = $('#quick-signup-email').val();
-		const password = $('#quick-signup-password').val();
+		let $email = $('#quick-signup-email');
+		let $password = $('#quick-signup-password');
+
+		if ( isStripSignup ) {
+			$email = $("#strip-signup-email");
+			$password = $("#strip-signup-password");
+		}
+
+		const email = $email.val();
+		const password = $password.val();
 	
 		createUserWithEmailAndPassword(auth, email, password)
 		  .then((userCredential) => {
