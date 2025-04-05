@@ -226,6 +226,10 @@ body nav {
     margin-bottom: 48px;
 }
 
+.user-case-window .user-case-container h3 {
+    text-decoration: underline;
+}
+
 .user-case-window .user-case-container h4 {
     font-weight: 900;
     margin-bottom: 16px;
@@ -240,6 +244,7 @@ body nav {
     margin-top: 8px;
     font-weight: 500;
     font-size: larger;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
 }
 
 .user-case-window .user-case-container ul {
@@ -311,6 +316,26 @@ body nav {
 
 /* */
 
-.footer p{
+.footer {
+    text-align: left;
+    font-size: larger;
+}
+
+.footer .row:first-child ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer .row:first-child ul li a {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer .footer-contacts-title {
+    display: inline-block;
+}
+
+.footer p.bottom-footer{
+    text-align: center;
     font-size: 12px;
 }
