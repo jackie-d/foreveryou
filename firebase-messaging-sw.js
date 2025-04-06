@@ -32,7 +32,7 @@ messaging.onBackgroundMessage((payload) => {
   }
 
   const destinationUrl = self.location.protocol + '//' + self.location.host + '/chat.html?with=' + payload.data.fromId
-  const notificationTitle = 'You got a new message on ForeverYou.day';
+  const notificationTitle = 'You got a new message on ForeverYou.app';
   const notificationOptions = {
     body: payload.data.body,
     data: { url: destinationUrl }, //the url which we gonna use later
